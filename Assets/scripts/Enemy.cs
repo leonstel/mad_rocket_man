@@ -1,30 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Enemy : MonoBehaviour, IWayPointListener {
+public class Enemy : MonoBehaviour {
 
-	private WaypointWalker enemyWalker;
+	private Vector3 screenCenter;
+	public GameObject prefab;
+	private GameObject enemyGo;
+	public float Xmin;
+	public float Xmax;
 
+	// Use this for initialization
 	void Start () {
-		enemyWalker = new WaypointWalker (this, "enemy");
-		enemyWalker.CreateWayPoint (new Vector2(1,1), 18);
-		enemyWalker.CreateWayPoint (new Vector2(10,10), 18);
-	}
 
+	}
+	
+	// Update is called once per frame
 	void Update () {
-		enemyWalker.Update ();
-	}
-
-	void IWayPointListener.PointReached (int i, string walkerName){
 		
-	}
+		if (transform.position.x < Xmin + 0.1) {
+			transform.rotation = Quaternion.Euler (new Vector3 (0, 0, 180));
+		} else if(transform.position.x > Xmax - 0.1){
+			transform.rotation = Quaternion.Euler (new Vector3(0, 0, 0));
+		}
 
-	GameObject IWayPointListener.getGameObject(){
-		//return ship instead of this.destinationplanet
-		return gameObject;
-	}
-
-	public virtual void LastPointReached (string walkerName){
-
+		transform.position =new Vector3(Mathf.PingPong(Time.time*2,Xmax-Xmin)+Xmin, transform.position.y, transform.position.z);
 	}
 }
