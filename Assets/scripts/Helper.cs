@@ -2,7 +2,7 @@
 using System;
 
 public class Helper : MonoBehaviour {
-	public static bool CheckIfNearby(string tag, GameObject targetPos, int distance){
+	public static bool CheckIfNearby(string tag, GameObject targetPos, float distance){
 		GameObject go = GameObject.FindGameObjectWithTag (tag);
 
 		if(go){
@@ -14,7 +14,7 @@ public class Helper : MonoBehaviour {
 		return false;
 	}
 
-	public static bool CheckIfNearby(GameObject go, GameObject targetPos, int distance){
+	public static bool CheckIfNearby(GameObject go, GameObject targetPos, float distance){
 		if(go && targetPos){
 			if(Vector2.Distance(targetPos.transform.position, go.transform.position) < distance){
 				return true;		
@@ -41,6 +41,11 @@ public class Helper : MonoBehaviour {
 	public static void LookAt180(GameObject source, GameObject target){
 		float rot_z = getRotZ (source, target);
 		source.transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
+	}
+
+	public static void LookAt270(GameObject source, GameObject target){
+		float rot_z = getRotZ (source, target);
+		source.transform.rotation = Quaternion.Euler(0f, 0f, rot_z);
 	}
 
 	private static float getRotZ(GameObject source, GameObject target){
