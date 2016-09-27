@@ -8,10 +8,7 @@ public class Game : MonoBehaviour {
 
 	//PUBLIC GAMEOBJECTS
 	public GameObject playerGo;
-	public GameObject prefab_orbitPlanet;
-
 	//
-
 
 	public enum State {Orbit, Flying, GameOver};
 	public State currentState;
@@ -29,15 +26,18 @@ public class Game : MonoBehaviour {
 
 		currentState = State.Flying;
 
-		setFirstOrbitPlanet ();
+		WaveChef.GetInstance ().createNextStage ();
+	}
+
+	void Start(){
+		
 	}
 
 	void Update(){
 		
 	}
 
-	void setFirstOrbitPlanet (){
-		GameObject orbitPlanet = (GameObject)Instantiate (prefab_orbitPlanet, new Vector2(0,0), Quaternion.Euler( new Vector3(0,0,1)));
-		currentOrbitPlanet = orbitPlanet;
+	public void determineAccuracy(GameObject arrivalPlanet){
+		Debug.Log ("DETERMINE ACCURACY HERE : perfect - moderate - weak");
 	}
 }

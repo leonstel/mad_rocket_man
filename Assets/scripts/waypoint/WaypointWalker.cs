@@ -32,14 +32,18 @@ public class WaypointWalker {
 
 			Vector2 dir = destinationPos - arrivalPos;
 
-			if (dir.magnitude > 2) {
+			if (dir.magnitude > 1) {
+				Debug.Log ("TEST");
+
 				dir = dir.normalized * currentWayPoint.getSpeed();
 
 				listener.getGameObject ().GetComponent<Rigidbody2D>().velocity = dir;
 			} else {
 				if (currentIndex+1 >= waypoints.Count) {
+					Debug.Log ("lastpoint reached");
 					listener.LastPointReached (name);
 				} else {
+					Debug.Log ("PointReached");
 					listener.PointReached (currentIndex, name);
 					currentIndex++;
 				}

@@ -7,8 +7,8 @@ public class Enemy : MonoBehaviour, IWayPointListener {
 
 	void Start () {
 		enemyWalker = new WaypointWalker (this, "enemy");
-		enemyWalker.CreateWayPoint (new Vector2(1,1), 18);
-		enemyWalker.CreateWayPoint (new Vector2(10,10), 18);
+		enemyWalker.CreateWayPoint (new Vector2(1,1), 2);
+		enemyWalker.CreateWayPoint (new Vector2(5,5), 2);
 	}
 
 	void Update () {
