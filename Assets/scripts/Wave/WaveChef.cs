@@ -7,7 +7,7 @@ public class WaveChef : MonoBehaviour {
 	private static WaveChef context;
 
 	//PUBLIC GAMEOBJECTS
-	public GameObject prefab_orbitPlanet;
+	public GameObject prefab_orbitGroup;
 
 	//
 
@@ -43,7 +43,7 @@ public class WaveChef : MonoBehaviour {
 	}
 
 	public void createNextStage (){
-		//Debug.Log ("current wave "+currentWaveInt);
+		Debug.Log ("current wave "+currentWaveInt);
 
 		//DESTROY currentWave
 		removePreviousWave();
@@ -76,7 +76,18 @@ public class WaveChef : MonoBehaviour {
 		return previous_wave;
 	}
 
-	public GameObject getOrbitPlanetPrefab(){
-		return prefab_orbitPlanet;
+	public GameObject getOrbitGroupPrefab(){
+		return prefab_orbitGroup;
+	}
+
+	public WaveContainer getCurrentWave(){
+		int currentWaveNumber = Game.GetInstance().currentOrbitGroup.GetComponent<OrbitGroup> ().getWaveNumber ();
+
+		foreach(WaveContainer waveContainer in waves){
+			if(currentWaveInt == waveContainer.getWaveNumber()){
+				return waveContainer;
+			}
+		}
+		return null;
 	}
 }

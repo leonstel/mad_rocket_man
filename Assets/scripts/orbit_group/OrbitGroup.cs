@@ -2,25 +2,35 @@
 using System.Collections;
 
 public class OrbitGroup : MonoBehaviour {
-
 	private bool hasConnected = false;
 
 	private DistanceJoint2D planetConstraint;
 	private Rigidbody2D playerRB;
 
-	public GameObject glow;
+	public GameObject prefab_glow;
 
-	// Use this for initialization
-	void Start () {
+	private GameObject glow_go;
+
+	private int waveNumber;
+
+
+	//set all randomized properties, will be called before Start()
+	public void init(int waveNumber){
+		this.waveNumber = waveNumber;
+
 		planetConstraint = GetComponent<DistanceJoint2D> ();
 		playerRB = Game.GetInstance ().playerGo.GetComponent<Rigidbody2D> ();
 
-		GameObject glow_go = (GameObject)Instantiate (glow, new Vector3 (transform.position.x, transform.position.y, 1), Quaternion.Euler (new Vector3 (0, 0, 1)));
+		planetConstraint.distance = 1.4f;
+	}
+
+	// Use this for initialization
+	void Start () {
+		glow_go = (GameObject)Instantiate (prefab_glow, new Vector3 (transform.position.x, transform.position.y, 0), Quaternion.Euler (new Vector3 (0, 0, 1)));
+		glow_go.transform.parent = transform;
 
 		float scale = glow_go.transform.localScale.x - planetConstraint.distance;
 		glow_go.transform.localScale = new Vector3 (planetConstraint.distance, planetConstraint.distance, 0);
-
-		transform.localScale = new Vector2 (.5f,.5f);
 	}
 	
 	// Update is called once per frame
@@ -37,15 +47,13 @@ public class OrbitGroup : MonoBehaviour {
 					Game.GetInstance().determineAccuracy (gameObject);
 
 					if (Game.GetInstance ().playerGo.transform.position.x < gameObject.transform.position.x) {
-						Helper.LookAt90 (Game.GetInstance().playerGo.gameObject, gameObject);
 						playerScript.orbit_clockwise = true;
 					} else {
-						Helper.LookAt270(Game.GetInstance().playerGo.gameObject, gameObject);
 						playerScript.orbit_clockwise = false;
 					}
 
 					Game.GetInstance ().currentState = Game.State.Orbit;
-					Game.GetInstance ().currentOrbitPlanet = gameObject;
+					Game.GetInstance ().currentOrbitGroup = gameObject;
 
 					linkToPlayer ();
 
@@ -63,5 +71,9 @@ public class OrbitGroup : MonoBehaviour {
 
 	void destroyLink(){
 		planetConstraint.connectedBody = null;
+	}
+
+	public int getWaveNumber(){
+		return waveNumber;
 	}
 }

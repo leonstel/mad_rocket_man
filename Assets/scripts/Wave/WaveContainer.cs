@@ -7,7 +7,7 @@ public class WaveContainer {
 
 	int wave_number;
 
-	GameObject arrivelPlanet;
+	GameObject orbitGroup;
 
 	WaveContainer previousWave;
 
@@ -15,12 +15,21 @@ public class WaveContainer {
 
 	List<GameObject> gameObjects = new List<GameObject> ();
 
+	public enum OrbitMovement
+	{
+		steady,
+		spinning
+	};
+
+	private OrbitMovement orbitMovement = OrbitMovement.steady;
+
 	public WaveContainer(int wave_number){
 		this.wave_number = wave_number;
 
 		previousWave = WF.getPreviousWave ();
 
 		setWaveStartingPoint ();
+		setOrbitMovement ();
 		initWaveObjects ();
 	}
 
@@ -29,7 +38,11 @@ public class WaveContainer {
 	}
 
 	public Vector2 getStartPos(){
-		return arrivelPlanet.transform.position;
+		return orbitGroup.transform.position;
+	}
+
+	public OrbitMovement getOrbitForce(){
+		return orbitMovement;
 	}
 
 	public void remove(){
@@ -72,8 +85,21 @@ public class WaveContainer {
 		}
 	}
 
+	public void setOrbitMovement(){
+		float OM_random = Random.Range (0,10);
+
+		if(OM_random < 5){
+			orbitMovement = OrbitMovement.steady;
+		}else{
+			orbitMovement = OrbitMovement.spinning;
+		}
+	}
+
 	public void initWaveObjects(){
-		arrivelPlanet = WF.instantiateGo (WF.getOrbitPlanetPrefab(), new Vector2(0, wave_start_pos_y));
-		gameObjects.Add (arrivelPlanet);
+		orbitGroup = WF.instantiateGo (WF.getOrbitGroupPrefab(), new Vector2(0, wave_start_pos_y));
+
+		orbitGroup.GetComponent<OrbitGroup> ().init (getWaveNumber());
+
+		gameObjects.Add (orbitGroup);
 	}
 }

@@ -15,7 +15,7 @@ public class Game : MonoBehaviour {
 
 	//
 
-	public GameObject currentOrbitPlanet;
+	public GameObject currentOrbitGroup;
 
 	public static Game GetInstance(){
 		return context;
