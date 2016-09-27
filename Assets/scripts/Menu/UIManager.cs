@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour {
 	}
 	//shows the instruction page
 	public void onClickPlay(){
-		Application.LoadLevel (1);
+		Application.LoadLevel (2);
 	}
 	//closes the app
 	public void onClickQuit(){
@@ -50,7 +50,7 @@ public class UIManager : MonoBehaviour {
 		Application.LoadLevel(0);
 	}
 	public void onCredits(){
-		Application.LoadLevel(4);
+		Application.LoadLevel(1);
 	}
 
 	public static void showGameOver(){
