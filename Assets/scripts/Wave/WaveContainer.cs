@@ -138,8 +138,8 @@ public class WaveContainer {
 			}
 
 		//ORBIT GROUP MOVEMENT
-			orbitGroupMovementSpeed = .3f;
-			orbitGroupMovementRadius = 2f;
+			orbitGroupMovementSpeed = 1f;
+			orbitGroupMovementRadius = 1f;
 
 			float OGM_random = Random.Range (0,10);
 			if(OGM_random < 5){
