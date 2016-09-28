@@ -66,7 +66,7 @@ public class Googledatahandler : MonoBehaviour {
 		}
 	}
 
-	class Achievement{
+	public class Achievement{
 		private int planetcount;
 		private string id;
 
