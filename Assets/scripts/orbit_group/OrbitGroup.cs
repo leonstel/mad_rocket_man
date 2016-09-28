@@ -13,14 +13,15 @@ public class OrbitGroup : MonoBehaviour {
 
 	private int waveNumber;
 
-
 	//set all randomized properties, will be called before Start()
-	public void init(int waveNumber, float glow_scale){
+	public void init(int waveNumber, float pos_x, float glow_scale){
 		this.waveNumber = waveNumber;
 
 		planetConstraint = GetComponent<DistanceJoint2D> ();
 		playerRB = Game.GetInstance ().playerGo.GetComponent<Rigidbody2D> ();
 
+		//set randomized values
+		transform.position = new Vector2(pos_x, transform.position.y);
 		planetConstraint.distance = glow_scale;
 	}
 
@@ -41,7 +42,26 @@ public class OrbitGroup : MonoBehaviour {
 		}
 
 		if(Game.GetInstance().currentState == Game.State.Orbit){
-			
+			//only move planet when current planet is not rotating planet
+			if(waveNumber != WaveChef.GetInstance ().getCurrentWave().getWaveNumber()){
+				WaveContainer thisWave = WaveChef.GetInstance ().getWave (waveNumber);
+				WaveContainer.OrbitGroupMovement orbitGroupMovement = thisWave.getOrbitGroupMovement ();
+
+				Vector2 waveStartPoint = thisWave.getStartPos ();
+
+				float groupOrbitMovementRadius = thisWave.getGroupOrbitMovementRadius ();
+				float groupOrbitMovementSpeed = thisWave.getOrbitGroupMovementSpeed ();
+
+				//update movement of this planet
+				if(orbitGroupMovement == WaveContainer.OrbitGroupMovement.x_axis){
+					if(transform.position.x <= waveStartPoint.x - groupOrbitMovementRadius || transform.position.x >= waveStartPoint.x + groupOrbitMovementRadius){
+							//groupOrbitMovementSpeed *= -1;
+							//Debug.Log ("CHECK "+(groupOrbitMovementSpeed * -1));
+					}
+
+					//transform.position = new Vector2 (Mathf.PingPong ((waveStartPoint.x - groupOrbitMovementRadius), (waveStartPoint.x + groupOrbitMovementRadius)), transform.position.y);
+				}
+			}
 		}
 
 		if(Game.GetInstance().currentState == Game.State.Flying){

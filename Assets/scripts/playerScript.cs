@@ -25,7 +25,7 @@ public class playerScript : MonoBehaviour {
 			playerRB.freezeRotation = false;
 
 			WaveContainer currentWave = WaveChef.GetInstance ().getCurrentWave ();
-			WaveContainer.OrbitMovement orbitMovement = currentWave.getOrbitMovement ();
+			WaveContainer.PlayerInOrbitMovement playerInOrbitMovement = currentWave.getPlayerInOrbitMovement ();
 			float orbitForce = currentWave.getOrbitForce ();
 			float spinningSpeed = currentWave.getSpinningSpeed();
 		
@@ -45,13 +45,13 @@ public class playerScript : MonoBehaviour {
 			constF.force = new Vector2 (x_force, y_force);
 			constF.relativeForce = new Vector2 (0,0); 
 
-			if(orbitMovement == WaveContainer.OrbitMovement.steady){
+			if(playerInOrbitMovement == WaveContainer.PlayerInOrbitMovement.steady){
 				if (orbit_clockwise) {
 					Helper.LookAt90 (gameObject, Game.GetInstance().currentOrbitGroup);
 				} else {
 					Helper.LookAt270(gameObject, Game.GetInstance().currentOrbitGroup);
 				}
-			}else if(orbitMovement == WaveContainer.OrbitMovement.spinning){
+			}else if(playerInOrbitMovement == WaveContainer.PlayerInOrbitMovement.spinning){
 
 				if (orbit_clockwise) {
 					transform.Rotate (new Vector3(0,0,transform.localRotation.z + spinningSpeed));
@@ -65,7 +65,7 @@ public class playerScript : MonoBehaviour {
 			CheckIfOutOfBounds ();
 
 			constF.force = Vector2.zero;
-			constF.relativeForce = new Vector2 (0,40); 
+			constF.relativeForce = new Vector2 (0,WaveContainer.launchForce); 
 		}
 	}
 

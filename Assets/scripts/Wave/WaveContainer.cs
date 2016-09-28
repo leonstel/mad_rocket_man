@@ -7,6 +7,8 @@ public class WaveContainer {
 
 	int wave_number;
 
+	private Vector2 startPos;
+
 	GameObject orbitGroup;
 
 	WaveContainer previousWave;
@@ -17,14 +19,26 @@ public class WaveContainer {
 
 	private float orbitForce = 0f;
 	private float spinningSpeed = 0f;
+	public static float launchForce = 40f;
 
-	public enum OrbitMovement
+	public enum PlayerInOrbitMovement
 	{
 		steady,
 		spinning
 	};
 
-	private OrbitMovement orbitMovement = OrbitMovement.steady;
+	private PlayerInOrbitMovement playerInOrbitMovement = PlayerInOrbitMovement.steady;
+
+	public enum OrbitGroupMovement
+	{
+		steady,
+		x_axis
+	};
+
+	private float orbitGroupMovementRadius = 0f;
+	private float orbitGroupMovementSpeed = 0f;
+
+	private OrbitGroupMovement orbitGroupMovement = OrbitGroupMovement.steady;
 
 	public WaveContainer(int wave_number){
 		this.wave_number = wave_number;
@@ -41,11 +55,15 @@ public class WaveContainer {
 	}
 
 	public Vector2 getStartPos(){
-		return orbitGroup.transform.position;
+		return startPos;
 	}
 
-	public OrbitMovement getOrbitMovement(){
-		return orbitMovement;
+	public PlayerInOrbitMovement getPlayerInOrbitMovement(){
+		return playerInOrbitMovement;
+	}
+
+	public OrbitGroupMovement getOrbitGroupMovement(){
+		return orbitGroupMovement;
 	}
 
 	public float getOrbitForce(){
@@ -54,6 +72,14 @@ public class WaveContainer {
 
 	public float getSpinningSpeed(){
 		return spinningSpeed;
+	}
+
+	public float getGroupOrbitMovementRadius(){
+		return orbitGroupMovementRadius;
+	}
+
+	public float getOrbitGroupMovementSpeed(){
+		return orbitGroupMovementSpeed;
 	}
 
 	public void remove(){
@@ -92,35 +118,57 @@ public class WaveContainer {
 
 			float final_distance = Mathf.Clamp (distance, min_distance, max_distance);
 
-			wave_start_pos_y = WF.getPreviousWave().getStartPos().y + final_distance;
+			wave_start_pos_y = previousWave.getStartPos().y + final_distance;
 		}
 	}
 
 	public void setOrbitProps(){
-		float orbitForce_random = Random.Range (10f,30f);
-		orbitForce = orbitForce_random;
+		//PLAYER ORBIT FORCE
+			float orbitForce_random = Random.Range (10f,30f);
+			orbitForce = orbitForce_random;
 
-		float spinningSpeed_random = Random.Range (2f,6f);
-		spinningSpeed = spinningSpeed_random;
+			float spinningSpeed_random = Random.Range (2f,6f);
+			spinningSpeed = spinningSpeed_random;
 
-		float OM_random = Random.Range (0,10);
+			float PIOM_random = Random.Range (0,10);
+			if(PIOM_random < 5){
+				playerInOrbitMovement = PlayerInOrbitMovement.steady;
+			}else{
+				playerInOrbitMovement = PlayerInOrbitMovement.spinning;
+			}
 
-		if(OM_random < 5){
-			orbitMovement = OrbitMovement.steady;
-		}else{
-			orbitMovement = OrbitMovement.spinning;
-		}
+		//ORBIT GROUP MOVEMENT
+			orbitGroupMovementSpeed = .3f;
+			orbitGroupMovementRadius = 2f;
+
+			float OGM_random = Random.Range (0,10);
+			if(OGM_random < 5){
+				orbitGroupMovement = OrbitGroupMovement.steady;
+			}else{
+				orbitGroupMovement = OrbitGroupMovement.x_axis;
+			}
 	}
 
 	public void initWaveObjects(){
-		orbitGroup = WF.instantiateGo (WF.getOrbitGroupPrefab(), new Vector2(0, wave_start_pos_y));
+		orbitGroup = WF.instantiateGo (WF.getOrbitGroupPrefab (), new Vector2 (0, wave_start_pos_y));
 
-		float glowScale_random = Random.Range (1f,2f);
+		//float posX_random = Random.Range (-1f, 1f);
+		float posX_random = 0;
+		if (previousWave != null) {
+			float previousStartX = previousWave.getStartPos ().x;
+			float orthoWidth = Camera.main.orthographicSize - 3f;
+			float leftBounds = previousStartX - orthoWidth;
+			posX_random = Random.Range(leftBounds, leftBounds + (orthoWidth * 2f));
+		}
 
-		Debug.Log (glowScale_random);
+		float glowScale_random = Random.Range (1f, 2f);
 
-		orbitGroup.GetComponent<OrbitGroup> ().init (getWaveNumber(), glowScale_random);
+		orbitGroup.GetComponent<OrbitGroup> ().init (getWaveNumber (), posX_random, glowScale_random);
 
+		//set first start pos
+		startPos = new Vector2 (posX_random, wave_start_pos_y);
+
+		//add to list with alll gameobejct of this wave
 		gameObjects.Add (orbitGroup);
 	}
 }

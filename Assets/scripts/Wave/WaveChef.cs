@@ -90,4 +90,13 @@ public class WaveChef : MonoBehaviour {
 		}
 		return null;
 	}
+
+	public WaveContainer getWave(int waveNumber){
+		foreach(WaveContainer waveContainer in waves){
+			if(waveNumber == waveContainer.getWaveNumber()){
+				return waveContainer;
+			}
+		}
+		return null;
+	}
 }

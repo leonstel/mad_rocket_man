@@ -21,11 +21,16 @@ public class UI : MonoBehaviour {
 	}
 
 	void Update(){
-		WaveContainer currentWave = WaveChef.GetInstance ().getCurrentWave ();
-		if(currentWave != null){
-			int currentWaveNumber = currentWave.getWaveNumber ();
 
-			UI_wave_text.text = "Wave " + currentWaveNumber;
+		if (Game.GetInstance ().currentState == Game.State.GameOver) {
+			UIManager.showGameOver ();
+		} else {
+			WaveContainer currentWave = WaveChef.GetInstance ().getCurrentWave ();
+			if(currentWave != null){
+				int currentWaveNumber = currentWave.getWaveNumber ();
+
+				UI_wave_text.text = "Wave " + currentWaveNumber;
+			}
 		}
 	}
 }
