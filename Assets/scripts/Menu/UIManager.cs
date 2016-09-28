@@ -31,9 +31,9 @@ public class UIManager : MonoBehaviour {
 	public void LogIn(){
 		Social.localUser.Authenticate ((bool success) => {
 			if (success) {
-				Debug.Log =("Login success");
+				Debug.Log ("Login success");
 			} else {
-				Debug.Log = ("Login Failed");
+				Debug.Log ("Login Failed");
 			}
 		});
 	}
