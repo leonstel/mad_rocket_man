@@ -58,7 +58,7 @@ public class Googledatahandler : MonoBehaviour {
 	static void PlanetReachAchievement(int planetcount){
 
 		foreach (Achievement achievement in Scorelist){
-			if (achievement.getplanetcount()== planetcount) {
+			if (achievement.getplanetcount()<= planetcount) {
 				Social.ReportProgress (achievement.getId(), 100.0f, (bool success) => {
 					// handle success or failure
 				});
