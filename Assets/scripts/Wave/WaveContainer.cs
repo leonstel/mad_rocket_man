@@ -15,6 +15,9 @@ public class WaveContainer {
 
 	List<GameObject> gameObjects = new List<GameObject> ();
 
+	private float orbitForce = 0f;
+	private float spinningSpeed = 0f;
+
 	public enum OrbitMovement
 	{
 		steady,
@@ -29,7 +32,7 @@ public class WaveContainer {
 		previousWave = WF.getPreviousWave ();
 
 		setWaveStartingPoint ();
-		setOrbitMovement ();
+		setOrbitProps ();
 		initWaveObjects ();
 	}
 
@@ -41,8 +44,16 @@ public class WaveContainer {
 		return orbitGroup.transform.position;
 	}
 
-	public OrbitMovement getOrbitForce(){
+	public OrbitMovement getOrbitMovement(){
 		return orbitMovement;
+	}
+
+	public float getOrbitForce(){
+		return orbitForce;
+	}
+
+	public float getSpinningSpeed(){
+		return spinningSpeed;
 	}
 
 	public void remove(){
@@ -65,7 +76,7 @@ public class WaveContainer {
 			//Vector2 pos = new Vector2 (0, screenToWorld.y + Camera.main.orthographicSize);
 
 			float max_distance = Camera.main.orthographicSize * 2f - Cam.cam_y_offset;
-			float min_distance = 3f;
+			float min_distance = 4f;
 
 			//determine distance with wave count
 			float distance = 0;
@@ -85,7 +96,13 @@ public class WaveContainer {
 		}
 	}
 
-	public void setOrbitMovement(){
+	public void setOrbitProps(){
+		float orbitForce_random = Random.Range (10f,30f);
+		orbitForce = orbitForce_random;
+
+		float spinningSpeed_random = Random.Range (2f,6f);
+		spinningSpeed = spinningSpeed_random;
+
 		float OM_random = Random.Range (0,10);
 
 		if(OM_random < 5){
@@ -98,7 +115,11 @@ public class WaveContainer {
 	public void initWaveObjects(){
 		orbitGroup = WF.instantiateGo (WF.getOrbitGroupPrefab(), new Vector2(0, wave_start_pos_y));
 
-		orbitGroup.GetComponent<OrbitGroup> ().init (getWaveNumber());
+		float glowScale_random = Random.Range (1f,2f);
+
+		Debug.Log (glowScale_random);
+
+		orbitGroup.GetComponent<OrbitGroup> ().init (getWaveNumber(), glowScale_random);
 
 		gameObjects.Add (orbitGroup);
 	}

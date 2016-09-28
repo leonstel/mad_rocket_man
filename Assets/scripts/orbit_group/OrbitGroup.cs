@@ -15,13 +15,13 @@ public class OrbitGroup : MonoBehaviour {
 
 
 	//set all randomized properties, will be called before Start()
-	public void init(int waveNumber){
+	public void init(int waveNumber, float glow_scale){
 		this.waveNumber = waveNumber;
 
 		planetConstraint = GetComponent<DistanceJoint2D> ();
 		playerRB = Game.GetInstance ().playerGo.GetComponent<Rigidbody2D> ();
 
-		planetConstraint.distance = 1.4f;
+		planetConstraint.distance = glow_scale;
 	}
 
 	// Use this for initialization
@@ -35,6 +35,11 @@ public class OrbitGroup : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//if this is current orbit planet then remove glow
+		if(gameObject == Game.GetInstance ().currentOrbitGroup){
+			Destroy (glow_go);
+		}
+
 		if(Game.GetInstance().currentState == Game.State.Orbit){
 			
 		}

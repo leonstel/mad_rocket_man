@@ -8,9 +8,6 @@ public class playerScript : MonoBehaviour {
 
 	public static bool orbit_clockwise;
 
-	public float orbitForce = 20f;
-	public float spinningSpeed = 5f;
-
 	// Use this for initialization
 	void Start () {
 		playerBC = GetComponent<BoxCollider2D> ();
@@ -26,6 +23,11 @@ public class playerScript : MonoBehaviour {
 
 		if(Game.GetInstance ().currentState == Game.State.Orbit){
 			playerRB.freezeRotation = false;
+
+			WaveContainer currentWave = WaveChef.GetInstance ().getCurrentWave ();
+			WaveContainer.OrbitMovement orbitMovement = currentWave.getOrbitMovement ();
+			float orbitForce = currentWave.getOrbitForce ();
+			float spinningSpeed = currentWave.getSpinningSpeed();
 		
 			//x = -f * (delta y / l)
 
@@ -42,9 +44,6 @@ public class playerScript : MonoBehaviour {
 
 			constF.force = new Vector2 (x_force, y_force);
 			constF.relativeForce = new Vector2 (0,0); 
-
-			WaveContainer currentWave = WaveChef.GetInstance ().getCurrentWave ();
-			WaveContainer.OrbitMovement orbitMovement = currentWave.getOrbitForce ();
 
 			if(orbitMovement == WaveContainer.OrbitMovement.steady){
 				if (orbit_clockwise) {

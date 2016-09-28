@@ -43,8 +43,6 @@ public class WaveChef : MonoBehaviour {
 	}
 
 	public void createNextStage (){
-		Debug.Log ("current wave "+currentWaveInt);
-
 		//DESTROY currentWave
 		removePreviousWave();
 
@@ -81,11 +79,13 @@ public class WaveChef : MonoBehaviour {
 	}
 
 	public WaveContainer getCurrentWave(){
-		int currentWaveNumber = Game.GetInstance().currentOrbitGroup.GetComponent<OrbitGroup> ().getWaveNumber ();
+		if(Game.GetInstance().currentOrbitGroup != null){
+			int currentWaveNumber = Game.GetInstance().currentOrbitGroup.GetComponent<OrbitGroup> ().getWaveNumber ();
 
-		foreach(WaveContainer waveContainer in waves){
-			if(currentWaveInt == waveContainer.getWaveNumber()){
-				return waveContainer;
+			foreach(WaveContainer waveContainer in waves){
+				if(currentWaveNumber == waveContainer.getWaveNumber()){
+					return waveContainer;
+				}
 			}
 		}
 		return null;
