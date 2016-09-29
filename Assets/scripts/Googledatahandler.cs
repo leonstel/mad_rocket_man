@@ -10,7 +10,6 @@ public class Googledatahandler : MonoBehaviour {
 	public static List<Achievement> Scorelist = new List<Achievement>();
 	// Use this for initialization
 	void Start () {
-		Debug.Log (Application.loadedLevel);
 		checkScene ();
 		Scorelist.Add (new Achievement(1, "CgkIs-r3kO4CEAIQAQ"));
 		Scorelist.Add (new Achievement(10, "CgkIs-r3kO4CEAIQAw"));
@@ -34,26 +33,21 @@ public class Googledatahandler : MonoBehaviour {
 		});
 				
 	}
-	private static void DeathAchievement(){
-		PlayGamesPlatform.Instance.IncrementAchievement(
-			"CgkIs-r3kO4CEAIQCw", 1, (bool success) => {
-				// handle success or failure
+	private static void DeathAchievement(int planetcount){
+		if (planetcount >= 50) {
+			Social.ReportProgress ("CgkIs-r3kO4CEAIQCw", 100.0f, (bool success) => {
 			});
+		}
 	}
 
 	public static void RegisterDeath(int planetcount){
 		RegisterHighScore (planetcount);
-		DeathAchievement();
+		DeathAchievement(planetcount);
 	}
 
 	public void checkScene(){
 		if (Application.loadedLevel == 1) {
 			Social.ReportProgress ("CgkIs-r3kO4CEAIQDA", 100.0f, (bool success) => {
-				if (success) {
-					Debug.Log ("Credits achievement unlocked");
-				} else {
-					Debug.Log ("credits unlocking Failed");
-				}
 			});
 		}
 	}
@@ -64,14 +58,15 @@ public class Googledatahandler : MonoBehaviour {
 		});
 	}
 	public static void PlanetReachAchievement(int planetcount){
-
+		string code = "";
 		foreach (Achievement achievement in Scorelist){
-			if (achievement.getplanetcount()<= planetcount) {
-				Social.ReportProgress (achievement.getId(), 100.0f, (bool success) => {
-					// handle success or failure
-				});
+			if (planetcount >= achievement.getplanetcount()) {
+				code = achievement.getId();
 			}
 		}
+		Social.ReportProgress(code +"" , 100.0f, (bool success) => {
+			// handle success or failure
+		});
 	}
 
 	public class Achievement{
