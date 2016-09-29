@@ -82,5 +82,6 @@ public class playerScript : MonoBehaviour {
 
 		Destroy (gameObject);
 		ExplosionWorker.GetInstance ().explode (gameObject.transform.position);
+
 	}
 }
