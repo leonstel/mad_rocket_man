@@ -27,14 +27,17 @@ public class Googledatahandler : MonoBehaviour {
 	void Update () {
 	}
 
-	public static void RegistrateDeath(int planetcount){
-		Social.ReportProgress("CgkIs-r3kO4CEAIQCw", 10.0f, (bool success) => {
-		// handle success or failure
-		});
+	public static void RegisterHighScore(int planetcount){
 		Social.ReportScore(planetcount, "CgkIs-r3kO4CEAIQAg", (bool success) => {
 			// handle success or failure
 		});
 				
+	}
+	public static void RegisterDeath(){
+		PlayGamesPlatform.Instance.IncrementAchievement(
+			"CgkIs-r3kO4CEAIQCw", 1, (bool success) => {
+				// handle success or failure
+			});
 	}
 	public void checkScene(){
 		if (Application.loadedLevel == 1) {
