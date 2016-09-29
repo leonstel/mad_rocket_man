@@ -25,20 +25,27 @@ public class Googledatahandler : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		
 	}
 
-	public static void RegisterHighScore(int planetcount){
+	private static void RegisterHighScore(int planetcount){
 		Social.ReportScore(planetcount, "CgkIs-r3kO4CEAIQAg", (bool success) => {
 			// handle success or failure
 		});
 				
 	}
-	public static void RegisterDeath(){
+	private static void DeathAchievement(){
 		PlayGamesPlatform.Instance.IncrementAchievement(
 			"CgkIs-r3kO4CEAIQCw", 1, (bool success) => {
 				// handle success or failure
 			});
 	}
+
+	public static void RegisterDeath(int planetcount){
+		RegisterHighScore (planetcount);
+		DeathAchievement();
+	}
+
 	public void checkScene(){
 		if (Application.loadedLevel == 1) {
 			Social.ReportProgress ("CgkIs-r3kO4CEAIQDA", 100.0f, (bool success) => {

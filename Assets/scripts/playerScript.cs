@@ -85,7 +85,6 @@ public class playerScript : MonoBehaviour {
 
 		WaveContainer currentWave = WaveChef.GetInstance ().getCurrentWave ();
 
-		Googledatahandler.RegisterDeath ();
-		Googledatahandler.RegisterHighScore (currentWave.getWaveNumber());
+		Googledatahandler.RegisterDeath (currentWave.getWaveNumber());
 	}
 }
