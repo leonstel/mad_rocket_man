@@ -138,8 +138,9 @@ public class WaveContainer {
 			}
 
 		//ORBIT GROUP MOVEMENT
-			orbitGroupMovementSpeed = 1f;
-			orbitGroupMovementRadius = 1f;
+			float OGMS_random = Random.Range(.1f, 1.5f);
+			orbitGroupMovementSpeed = OGMS_random;
+			orbitGroupMovementRadius = Camera.main.orthographicSize - 2f;
 
 			float OGM_random = Random.Range (0,10);
 			if(OGM_random < 5){

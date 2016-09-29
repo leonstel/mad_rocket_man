@@ -89,21 +89,32 @@ public class OrbitGroup : MonoBehaviour {
 				float groupOrbitMovementRadius = thisWave.getGroupOrbitMovementRadius ();
 				float groupOrbitMovementSpeed = thisWave.getOrbitGroupMovementSpeed ();
 
+				//get current position of current orbit position
+				GameObject currentOrbitGroup = Game.GetInstance().currentOrbitGroup;
+
 				//update movement of this planet
 				if(orbitGroupMovement == WaveContainer.OrbitGroupMovement.x_axis){
 
 					float distFromStart = transform.position.x - waveStartPoint.x;
 
+					//if planet is out off screen relative to current orbit planet
+					float min_x = currentOrbitGroup.transform.position.x - groupOrbitMovementRadius;
+					float max_x = currentOrbitGroup.transform.position.x + groupOrbitMovementRadius;
+
 					if (isGoingLeft) {
-						if (distFromStart > groupOrbitMovementRadius) {
+						if (distFromStart > groupOrbitMovementRadius || transform.position.x > max_x) {
 							isGoingLeft = !isGoingLeft;
 						}
 
+						//newx = groupOrbitMovementSpeed;
+
 						transform.Translate (groupOrbitMovementSpeed * Time.deltaTime, 0, 0);
 					} else {
-						if (distFromStart < -groupOrbitMovementRadius) {
+						if (distFromStart < -groupOrbitMovementRadius || transform.position.x < min_x) {
 							isGoingLeft = !isGoingLeft;
 						}
+
+						//newx = -groupOrbitMovementSpeed;
 
 						transform.Translate (-groupOrbitMovementSpeed * Time.deltaTime, 0, 0);
 					}
