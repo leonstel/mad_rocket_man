@@ -10,7 +10,6 @@ public class Googledatahandler : MonoBehaviour {
 	public static List<Achievement> Scorelist = new List<Achievement>();
 	// Use this for initialization
 	void Start () {
-		Debug.Log (Application.loadedLevel);
 		checkScene ();
 		Scorelist.Add (new Achievement(1, "CgkIs-r3kO4CEAIQAQ"));
 		Scorelist.Add (new Achievement(10, "CgkIs-r3kO4CEAIQAw"));
@@ -59,14 +58,15 @@ public class Googledatahandler : MonoBehaviour {
 		});
 	}
 	public static void PlanetReachAchievement(int planetcount){
-
+		string code = "";
 		foreach (Achievement achievement in Scorelist){
 			if (planetcount >= achievement.getplanetcount()) {
-				Social.ReportProgress (achievement.getId(), 100.0f, (bool success) => {
-					// handle success or failure
-				});
+				code = achievement.getId();
 			}
 		}
+		Social.ReportProgress(code +"" , 100.0f, (bool success) => {
+			// handle success or failure
+		});
 	}
 
 	public class Achievement{
