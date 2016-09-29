@@ -68,6 +68,8 @@ public class OrbitGroup : MonoBehaviour {
 					linkToPlayer ();
 
 					WaveChef.GetInstance ().createNextStage ();
+
+					Googledatahandler.PlanetReachAchievement (WaveChef.GetInstance().getCurrentWave().getWaveNumber());
 				}
 			} else {
 				destroyLink ();
@@ -106,15 +108,11 @@ public class OrbitGroup : MonoBehaviour {
 							isGoingLeft = !isGoingLeft;
 						}
 
-						//newx = groupOrbitMovementSpeed;
-
 						transform.Translate (groupOrbitMovementSpeed * Time.deltaTime, 0, 0);
 					} else {
 						if (distFromStart < -groupOrbitMovementRadius || transform.position.x < min_x) {
 							isGoingLeft = !isGoingLeft;
 						}
-
-						//newx = -groupOrbitMovementSpeed;
 
 						transform.Translate (-groupOrbitMovementSpeed * Time.deltaTime, 0, 0);
 					}
