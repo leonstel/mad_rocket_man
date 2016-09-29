@@ -8,7 +8,6 @@ using System.Collections.Generic;
 public class Googledatahandler : MonoBehaviour {
 
 	public static List<Achievement> Scorelist = new List<Achievement>();
-	public static int score;
 	// Use this for initialization
 	void Start () {
 		Debug.Log (Application.loadedLevel);
@@ -28,17 +27,17 @@ public class Googledatahandler : MonoBehaviour {
 	void Update () {
 	}
 
-	static void AddDeath(){
+	public static void RegistrateDeath(int planetcount){
 		PlayGamesPlatform.Instance.IncrementAchievement(
 		"CgkIs-r3kO4CEAIQCw", 1, (bool success) => {
 		// handle success or failure
 		});
-		Social.ReportScore(score, "CgkIs-r3kO4CEAIQAg", (bool success) => {
+		Social.ReportScore(planetcount, "CgkIs-r3kO4CEAIQAg", (bool success) => {
 			// handle success or failure
 		});
 				
 	}
-	void checkScene(){
+	public void checkScene(){
 		if (Application.loadedLevel == 1) {
 			Social.ReportProgress ("CgkIs-r3kO4CEAIQDA", 100.0f, (bool success) => {
 				if (success) {
@@ -50,12 +49,12 @@ public class Googledatahandler : MonoBehaviour {
 		}
 	}
 
-	static void firstSpin(){
+	public static void FirstSpin(){
 		Social.ReportProgress ("CgkIs-r3kO4CEAIQCg", 100.0f, (bool success) => {
 			// handle success or failure
 		});
 	}
-	static void PlanetReachAchievement(int planetcount){
+	public static void PlanetReachAchievement(int planetcount){
 
 		foreach (Achievement achievement in Scorelist){
 			if (achievement.getplanetcount()<= planetcount) {
@@ -82,11 +81,4 @@ public class Googledatahandler : MonoBehaviour {
 			return id;
 		}
 	}
-		
-	static void spin(){
-		Social.ReportProgress ("CgkIs-r3kO4CEAIQCg", 100.0f, (bool success) => {
-			// handle success or failure
-		});
-	}
-
 }
