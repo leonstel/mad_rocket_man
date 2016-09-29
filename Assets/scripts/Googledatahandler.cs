@@ -28,8 +28,7 @@ public class Googledatahandler : MonoBehaviour {
 	}
 
 	public static void RegistrateDeath(int planetcount){
-		PlayGamesPlatform.Instance.IncrementAchievement(
-		"CgkIs-r3kO4CEAIQCw", 1, (bool success) => {
+		Social.ReportProgress("CgkIs-r3kO4CEAIQCw", 10.0f, (bool success) => {
 		// handle success or failure
 		});
 		Social.ReportScore(planetcount, "CgkIs-r3kO4CEAIQAg", (bool success) => {
