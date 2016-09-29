@@ -23,14 +23,21 @@ public class UI : MonoBehaviour {
 	void Update(){
 
 		if (Game.GetInstance ().currentState == Game.State.GameOver) {
-			UIManager.showGameOver ();
+			StartCoroutine(showGameOver());
+
 		} else {
 			WaveContainer currentWave = WaveChef.GetInstance ().getCurrentWave ();
 			if(currentWave != null){
-				int currentWaveNumber = currentWave.getWaveNumber ();
-
-				UI_wave_text.text = "Wave " + currentWaveNumber;
+				if(currentWave.getWaveNumber() > 0){
+					int currentWaveNumber = currentWave.getWaveNumber ();
+					UI_wave_text.text = currentWaveNumber.ToString();
+				}
 			}
 		}
+	}
+
+	IEnumerator showGameOver(){
+		yield return new WaitForSeconds(.5f);
+		UIManager.showGameOver ();
 	}
 }

@@ -11,7 +11,7 @@ public class WaveChef : MonoBehaviour {
 
 	//
 
-	public int currentWaveInt = 1;
+	public int currentWaveInt = 0;
 
 	private WaveContainer previous_wave;
 	private WaveContainer next_wave;
