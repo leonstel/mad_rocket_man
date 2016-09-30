@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour {
 	public string leaderboard;
 	public static GameObject gameovermenu;
 	public static Text distance_score;
+	public static Text highscore;
 
 	void Start () {
 		PlayGamesPlatform.Activate ();
@@ -24,11 +25,12 @@ public class UIManager : MonoBehaviour {
 		}
 		Time.timeScale = 1;
 		gameovermenu = GameObject.Find ("GameOverMenu");
-
 		if(gameovermenu != null){
 			distance_score = GameObject.FindGameObjectWithTag ("UI_distance_score").GetComponent<Text> ();
+			highscore = GameObject.FindGameObjectWithTag ("UI_highscore").GetComponent<Text> ();
 			gameovermenu.SetActive (false);
 		}
+
 	}
 	public void LogIn(){
 		Social.localUser.Authenticate ((bool success) => {
@@ -47,6 +49,8 @@ public class UIManager : MonoBehaviour {
 
 	public static void setDistanceScore(int distance){
 		distance_score.text = distance + " km"; 
+		highscore.text = "Highscore: " + PlayerPrefs.GetInt ("HScore").ToString();
+
 	}
 
 	//Reloads the Level
