@@ -19,7 +19,9 @@ public class UIManager : MonoBehaviour {
 		PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder ().Build ();
 		PlayGamesPlatform.DebugLogEnabled = true;
 		PlayGamesPlatform.InitializeInstance (config);
-		LogIn ();
+		if (Application.loadedLevel == 0) {
+			LogIn ();
+		}
 		Time.timeScale = 1;
 		gameovermenu = GameObject.Find ("GameOverMenu");
 
