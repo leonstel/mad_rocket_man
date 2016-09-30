@@ -27,13 +27,13 @@ public class Googledatahandler : MonoBehaviour {
 	void Update () {
 		
 	}
-	private static void UploadHighScore(){
+	public static void UploadHighScore(){
 		Social.ReportScore(PlayerPrefs.GetInt("HScore"), "CgkIs-r3kO4CEAIQAg", (bool success) => {
 			// handle success or failure
 		});
 	}
 
-	private static void RegisterHighScore(int planetcount){
+	public static void RegisterHighScore(int planetcount){
 	newScore = planetcount;
 			if(PlayerPrefs.HasKey("HScore")){
 				if(PlayerPrefs.GetInt("HScore")<newScore){ 

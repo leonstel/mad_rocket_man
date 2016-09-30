@@ -35,6 +35,7 @@ public class UIManager : MonoBehaviour {
 	public void LogIn(){
 		Social.localUser.Authenticate ((bool success) => {
 			if (success) {
+				Googledatahandler.UploadHighScore();
 				Debug.Log ("Login success");
 			} else {
 				Debug.Log ("Login Failed");
@@ -81,9 +82,11 @@ public class UIManager : MonoBehaviour {
 		gameovermenu.SetActive(true);
 	}
 	public void onLeaderbord(){
+		LogIn ();
 		Social.ShowLeaderboardUI();
 	}
 	public void onAchievement(){
+		LogIn ();
 			Social.ShowAchievementsUI ();
 	}
 }
