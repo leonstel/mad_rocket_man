@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class UI : MonoBehaviour {
 	private static UI context;
 
-	private Text UI_wave_text;
+	private Text UI_accuracy;
 
 	public static UI GetInstance(){
 		return context;
@@ -17,7 +17,7 @@ public class UI : MonoBehaviour {
 	}
 
 	void Start(){
-		UI_wave_text = GameObject.FindGameObjectWithTag ("UI_wave_text").GetComponent<Text>();
+		UI_accuracy = GameObject.FindGameObjectWithTag ("UI_accuracy").GetComponent<Text>();
 	}
 
 	void Update(){
@@ -25,19 +25,15 @@ public class UI : MonoBehaviour {
 		if (Game.GetInstance ().currentState == Game.State.GameOver) {
 			StartCoroutine(showGameOver());
 
-		} else {
-			WaveContainer currentWave = WaveChef.GetInstance ().getCurrentWave ();
-			if(currentWave != null){
-				if(currentWave.getWaveNumber() > 0){
-					int currentWaveNumber = currentWave.getWaveNumber ();
-					UI_wave_text.text = currentWaveNumber.ToString();
-				}
-			}
 		}
 	}
 
 	IEnumerator showGameOver(){
 		yield return new WaitForSeconds(.5f);
 		UIManager.showGameOver ();
+	}
+
+	public void setAccuracy(string accuracy){
+		UI_accuracy.text = accuracy;
 	}
 }

@@ -54,8 +54,6 @@ public class OrbitGroup : MonoBehaviour {
 				if (Helper.CheckIfNearby (gameObject, Game.GetInstance ().playerGo, planetConstraint.distance + .2f)) {
 					hasConnected = true;
 
-					Game.GetInstance().determineAccuracy (gameObject);
-
 					if (Game.GetInstance ().playerGo.transform.position.x < gameObject.transform.position.x) {
 						playerScript.orbit_clockwise = true;
 					} else {
@@ -68,6 +66,8 @@ public class OrbitGroup : MonoBehaviour {
 					linkToPlayer ();
 
 					WaveChef.GetInstance ().createNextStage ();
+
+					Game.GetInstance().determineAccuracy (gameObject);
 
 					Googledatahandler.PlanetReachAchievement (WaveChef.GetInstance().getCurrentWave().getWaveNumber());
 				}

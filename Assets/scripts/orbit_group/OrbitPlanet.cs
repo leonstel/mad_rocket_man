@@ -11,7 +11,6 @@ public class OrbitPlanet : MonoBehaviour {
 		sr = GetComponent<SpriteRenderer> ();
 
 		Texture2D planetTexture = planetTextures [Random.Range (0, planetTextures.Length)];
-
 		sr.sprite = Sprite.Create(planetTexture,new Rect(0, 0, planetTexture.width, planetTexture.height),new Vector2(0.5f,0.5f));
 
 		float scale = .2f;
