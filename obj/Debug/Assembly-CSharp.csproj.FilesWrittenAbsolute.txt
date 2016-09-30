@@ -12,3 +12,6 @@
 /Users/jeroenmonster/git/mad_rocket_man/Temp/bin/Debug/Unity.CecilTools.dll
 /Users/jeroenmonster/git/mad_rocket_man/Temp/bin/Debug/Mono.Cecil.Pdb.dll
 /Users/jeroenmonster/git/mad_rocket_man/Temp/bin/Debug/Mono.Cecil.Mdb.dll
+/Users/jeroenmonster/git/mad_rocket_man/Temp/bin/Debug/Assembly-CSharp.dll.mdb
+/Users/jeroenmonster/git/mad_rocket_man/Temp/bin/Debug/Assembly-CSharp.dll
+/Users/jeroenmonster/git/mad_rocket_man/obj/Debug/Assembly-CSharp.dll.mdb

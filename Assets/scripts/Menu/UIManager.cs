@@ -13,24 +13,29 @@ public class UIManager : MonoBehaviour {
 	public string leaderboard;
 	public static GameObject gameovermenu;
 	public static Text distance_score;
+	public static Text highscore;
 
 	void Start () {
 		PlayGamesPlatform.Activate ();
 		PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder ().Build ();
 		PlayGamesPlatform.DebugLogEnabled = true;
 		PlayGamesPlatform.InitializeInstance (config);
-		LogIn ();
+		if (Application.loadedLevel == 0) {
+			LogIn ();
+		}
 		Time.timeScale = 1;
 		gameovermenu = GameObject.Find ("GameOverMenu");
-
 		if(gameovermenu != null){
 			distance_score = GameObject.FindGameObjectWithTag ("UI_distance_score").GetComponent<Text> ();
+			highscore = GameObject.FindGameObjectWithTag ("UI_highscore").GetComponent<Text> ();
 			gameovermenu.SetActive (false);
 		}
+
 	}
 	public void LogIn(){
 		Social.localUser.Authenticate ((bool success) => {
 			if (success) {
+				Googledatahandler.UploadHighScore();
 				Debug.Log ("Login success");
 			} else {
 				Debug.Log ("Login Failed");
@@ -45,6 +50,8 @@ public class UIManager : MonoBehaviour {
 
 	public static void setDistanceScore(int distance){
 		distance_score.text = distance + " km"; 
+		highscore.text = "Highscore: " + PlayerPrefs.GetInt ("HScore").ToString();
+
 	}
 
 	//Reloads the Level
@@ -75,9 +82,11 @@ public class UIManager : MonoBehaviour {
 		gameovermenu.SetActive(true);
 	}
 	public void onLeaderbord(){
+		LogIn ();
 		Social.ShowLeaderboardUI();
 	}
 	public void onAchievement(){
+		LogIn ();
 			Social.ShowAchievementsUI ();
 	}
 }
