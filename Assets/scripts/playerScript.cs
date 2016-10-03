@@ -88,8 +88,8 @@ public class playerScript : MonoBehaviour {
 
 		int waveNumber = currentWave.getWaveNumber ();
 
-		UIManager.setDistanceScore (waveNumber);
 		Googledatahandler.RegisterDeath (waveNumber);
+		UIManager.setDistanceScore (waveNumber);
 
 		Game.GetInstance ().currentState = Game.State.GameOver;
 	}
