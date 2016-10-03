@@ -6,31 +6,14 @@ using System.Collections.Generic;
 
 
 public class Googledatahandler : MonoBehaviour {
-	public static List<Achievement> Scorelist = new List<Achievement>();
 	public static int newScore;
 	public static int oldScore;
 	// Use this for initialization
-	void Start () {
-		checkScene ();
-		Scorelist.Add (new Achievement(1, "CgkIs-r3kO4CEAIQAQ"));
-		Scorelist.Add (new Achievement(10, "CgkIs-r3kO4CEAIQAw"));
-		Scorelist.Add (new Achievement(20, "CgkIs-r3kO4CEAIQBA"));
-		Scorelist.Add (new Achievement(30, "CgkIs-r3kO4CEAIQBQ"));
-		Scorelist.Add (new Achievement(50, "CgkIs-r3kO4CEAIQBg"));
-		Scorelist.Add (new Achievement(100, "CgkIs-r3kO4CEAIQBw"));
-		Scorelist.Add (new Achievement(150, "CgkIs-r3kO4CEAIQCA"));
-		Scorelist.Add (new Achievement(200, "CgkIs-r3kO4CEAIQCQ"));
 
-	}
 
 	// Update is called once per frame
 	void Update () {
 		
-	}
-	public static void UploadHighScore(){
-		Social.ReportScore(PlayerPrefs.GetInt("HScore"), "CgkIs-r3kO4CEAIQAg", (bool success) => {
-			// handle success or failure
-		});
 	}
 
 	public static void RegisterHighScore(int planetcount){
@@ -76,31 +59,48 @@ public class Googledatahandler : MonoBehaviour {
 		});
 	}
 	public static void PlanetReachAchievement(int planetcount){
-		string code = "";
-		foreach (Achievement achievement in Scorelist){
-			if (planetcount >= achievement.getplanetcount()) {
-				code = achievement.getId();
-			}
+		if (planetcount > 0) {
+			Social.ReportProgress("CgkIs-r3kO4CEAIQAQ" , 100.0f, (bool success) => {
+				// handle success or failure
+			});
 		}
-		Social.ReportProgress(code +"" , 100.0f, (bool success) => {
-			// handle success or failure
-		});
+		if (planetcount > 9) {
+			Social.ReportProgress("CgkIs-r3kO4CEAIQAw" , 100.0f, (bool success) => {
+				// handle success or failure
+			});
+		}
+		if (planetcount > 19) {
+			Social.ReportProgress("CgkIs-r3kO4CEAIQBA" , 100.0f, (bool success) => {
+				// handle success or failure
+			});
+		}
+		if (planetcount > 29) {
+			Social.ReportProgress("CgkIs-r3kO4CEAIQBQ" , 100.0f, (bool success) => {
+				// handle success or failure
+			});
+		}
+		if (planetcount > 49) {
+			Social.ReportProgress("CgkIs-r3kO4CEAIQBg" , 100.0f, (bool success) => {
+				// handle success or failure
+			});
+		}
+		if (planetcount > 99) {
+			Social.ReportProgress("CgkIs-r3kO4CEAIQBw" , 100.0f, (bool success) => {
+				// handle success or failure
+			});
+		}
+		if (planetcount > 149) {
+			Social.ReportProgress("CgkIs-r3kO4CEAIQCA" , 100.0f, (bool success) => {
+				// handle success or failure
+			});
+		}
+		if (planetcount > 199) {
+			Social.ReportProgress("CgkIs-r3kO4CEAIQCQ" , 100.0f, (bool success) => {
+				// handle success or failure
+			});
+		}
+
 	}
 
-	public class Achievement{
-		private int planetcount;
-		private string id;
 
-		public Achievement(int PlanetCount,string Id){
-			planetcount = PlanetCount;
-			id = Id;
-		}
-
-		public int getplanetcount(){
-			return planetcount;
-		}
-		public string getId(){
-			return id;
-		}
-	}
 }
