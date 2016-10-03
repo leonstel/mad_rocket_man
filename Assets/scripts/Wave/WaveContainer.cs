@@ -143,7 +143,7 @@ public class WaveContainer {
 			orbitGroupMovementRadius = Camera.main.orthographicSize - 2f;
 
 			float OGM_random = Random.Range (0,10);
-			if(OGM_random < 5){
+			if(OGM_random < 10){
 				orbitGroupMovement = OrbitGroupMovement.steady;
 			}else{
 				orbitGroupMovement = OrbitGroupMovement.x_axis;
@@ -157,13 +157,15 @@ public class WaveContainer {
 		float posX_random = 0;
 		if (previousWave != null) {
 			float previousStartX = previousWave.getStartPos ().x;
-			float orthoWidth = Camera.main.orthographicSize - 3f;
+			float orthoWidth = Camera.main.orthographicSize - 3.1f;
 			float leftBounds = previousStartX - orthoWidth;
-			posX_random = Random.Range(leftBounds, leftBounds + (orthoWidth * 2f));
+			//posX_random = Random.Range(leftBounds, leftBounds + (orthoWidth * 2f));
+
+			posX_random = previousStartX + orthoWidth;
 		}
 
 		float glowScale_random = Random.Range (1f, 2f);
-
+	
 		orbitGroup.GetComponent<OrbitGroup> ().init (getWaveNumber (), posX_random, glowScale_random);
 
 		//set first start pos

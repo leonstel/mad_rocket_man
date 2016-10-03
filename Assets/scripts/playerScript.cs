@@ -81,6 +81,8 @@ public class playerScript : MonoBehaviour {
 	}
 
 	void die(){
+		Game.GetInstance ().currentState = Game.State.GameOver;
+
 		Destroy (gameObject);
 		ExplosionWorker.GetInstance ().explode (gameObject.transform.position);
 
@@ -90,7 +92,5 @@ public class playerScript : MonoBehaviour {
 
 		Googledatahandler.RegisterDeath (waveNumber);
 		UIManager.setDistanceScore (waveNumber);
-
-		Game.GetInstance ().currentState = Game.State.GameOver;
 	}
 }
