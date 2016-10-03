@@ -13,6 +13,8 @@ public class OrbitGroup : MonoBehaviour {
 
 	private int waveNumber;
 
+	private float locationCorrectionSpeed = 15f;
+
 	bool isGoingLeft = false;
 
 	//set all randomized properties, will be called before Start()
@@ -98,8 +100,26 @@ public class OrbitGroup : MonoBehaviour {
 				GameObject currentOrbitGroup = Game.GetInstance().currentOrbitGroup;
 
 				//update movement of this planet
-				if(orbitGroupMovement == WaveContainer.OrbitGroupMovement.x_axis){
+				if(orbitGroupMovement == WaveContainer.OrbitGroupMovement.steady){
+					//if planet is steady and outside screen, than move to player and within screen bounds
+					WaveContainer nextWave = WaveChef.GetInstance().getNextWave();
+					if(nextWave != null){
+						GameObject nextOrbitGroup = nextWave.getOrbitGroup ();
 
+						if(gameObject == nextOrbitGroup){
+							if(Mathf.Abs(Game.GetInstance().currentOrbitGroup.transform.position.x - gameObject.transform.position.x) > Game.GetInstance().gameScreenWidth ){
+								float correctionSpeed = locationCorrectionSpeed;
+								if(gameObject.transform.position.x > Game.GetInstance().currentOrbitGroup.transform.position.x){
+									correctionSpeed = -locationCorrectionSpeed;
+								}
+
+								//move planet to visible position
+								transform.Translate (correctionSpeed * Time.deltaTime, 0, 0);
+							}
+						}
+					}
+
+				}else if(orbitGroupMovement == WaveContainer.OrbitGroupMovement.x_axis){
 					float distFromStart = transform.position.x - waveStartPoint.x;
 
 					//if planet is out off screen relative to current orbit planet

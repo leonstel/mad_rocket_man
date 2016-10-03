@@ -19,6 +19,7 @@ public class Game : MonoBehaviour {
 	//
 	public GameObject currentOrbitGroup;
 	private int previousOrbitGroupWaveNumber;
+	public float gameScreenWidth;
 
 	public static Game GetInstance(){
 		return context;
@@ -26,6 +27,8 @@ public class Game : MonoBehaviour {
 
 	void Awake(){
 		context = this;
+
+		gameScreenWidth = Camera.main.orthographicSize - 2f;
 
 		currentState = State.Flying;
 

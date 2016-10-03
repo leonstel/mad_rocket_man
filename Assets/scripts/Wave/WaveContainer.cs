@@ -82,6 +82,10 @@ public class WaveContainer {
 		return orbitGroupMovementSpeed;
 	}
 
+	public GameObject getOrbitGroup(){
+		return orbitGroup;
+	}
+
 	public void remove(){
 		WF.destroyGOs (gameObjects);
 	}
@@ -143,7 +147,7 @@ public class WaveContainer {
 			orbitGroupMovementRadius = Camera.main.orthographicSize - 2f;
 
 			float OGM_random = Random.Range (0,10);
-			if(OGM_random < 10){
+			if(OGM_random < 5){
 				orbitGroupMovement = OrbitGroupMovement.steady;
 			}else{
 				orbitGroupMovement = OrbitGroupMovement.x_axis;
@@ -157,11 +161,9 @@ public class WaveContainer {
 		float posX_random = 0;
 		if (previousWave != null) {
 			float previousStartX = previousWave.getStartPos ().x;
-			float orthoWidth = Camera.main.orthographicSize - 3.1f;
+			float orthoWidth = Camera.main.orthographicSize - 2f;
 			float leftBounds = previousStartX - orthoWidth;
-			//posX_random = Random.Range(leftBounds, leftBounds + (orthoWidth * 2f));
-
-			posX_random = previousStartX + orthoWidth;
+			posX_random = Random.Range(leftBounds, leftBounds + (orthoWidth * 2f));
 		}
 
 		float glowScale_random = Random.Range (1f, 2f);
