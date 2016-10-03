@@ -15,6 +15,11 @@ public class Googledatahandler : MonoBehaviour {
 	void Update () {
 		
 	}
+	public static void UploadHighScore(){
+		Social.ReportScore(PlayerPrefs.GetInt("HScore"), "CgkIs-r3kO4CEAIQAg", (bool success) => {
+			// handle success or failure
+		});
+	}
 
 	public static void RegisterHighScore(int planetcount){
 	newScore = planetcount;
