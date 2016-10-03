@@ -39,6 +39,10 @@ public class Googledatahandler : MonoBehaviour {
 						newScore = oldScore;
 					}
 				}
+				else{
+					PlayerPrefs.SetInt("HScore",newScore);
+					newScore = 0;
+				}
 			});
 	}
 
