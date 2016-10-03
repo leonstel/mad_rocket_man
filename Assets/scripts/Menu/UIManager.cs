@@ -48,8 +48,8 @@ public class UIManager : MonoBehaviour {
 	}
 
 
-	public static void setDistanceScore(int distance){
-		distance_score.text = distance + " km"; 
+	public static void setDistanceScore(int planetCount){
+		distance_score.text = "Score: " + planetCount; 
 		highscore.text = "Highscore: " + PlayerPrefs.GetInt ("HScore").ToString();
 
 	}

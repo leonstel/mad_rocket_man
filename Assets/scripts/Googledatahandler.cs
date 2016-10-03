@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 public class Googledatahandler : MonoBehaviour {
 	public static int newScore;
-	public static int oldScore;
+
 	// Use this for initialization
 
 
@@ -23,17 +23,7 @@ public class Googledatahandler : MonoBehaviour {
 
 	public static void RegisterHighScore(int planetcount){
 	newScore = planetcount;
-			if(PlayerPrefs.HasKey("HScore")){
-				if(PlayerPrefs.GetInt("HScore")<newScore){ 
-					// new score is higher than the stored score
-					oldScore = PlayerPrefs.GetInt("HScore");
-					PlayerPrefs.SetInt("HScore",newScore);
-					newScore = oldScore;
-				}
-			}else{
-				PlayerPrefs.SetInt("HScore",newScore);
-				newScore = 0;
-			}
+		Offlinedatahandler.UpdateHighScore(newScore);
 		Social.ReportScore(planetcount, "CgkIs-r3kO4CEAIQAg", (bool success) => {
 			// handle success or failure
 		});
