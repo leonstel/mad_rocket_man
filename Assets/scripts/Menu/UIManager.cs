@@ -21,7 +21,14 @@ public class UIManager : MonoBehaviour {
 		PlayGamesPlatform.DebugLogEnabled = true;
 		PlayGamesPlatform.InitializeInstance (config);
 		if (Application.loadedLevel == 0) {
-			LogIn ();
+			if(PlayerPrefs.HasKey("Logintrue")){
+				if(PlayerPrefs.GetInt("Logintrue")<1){ 
+					LogIn ();
+				}
+			}else{
+				PlayerPrefs.SetInt("Logintrue",0);
+				LogIn ();
+			}
 		}
 		Time.timeScale = 1;
 		gameovermenu = GameObject.Find ("GameOverMenu");
@@ -38,8 +45,10 @@ public class UIManager : MonoBehaviour {
 				Googledatahandler.UploadHighScore();
 				Googledatahandler.DownloadHighScore();
 				Debug.Log ("Login success");
+				PlayerPrefs.SetInt("Logintrue",0);
 			} else {
 				Debug.Log ("Login Failed");
+				PlayerPrefs.SetInt("Logintrue",1);
 			}
 		});
 	}
