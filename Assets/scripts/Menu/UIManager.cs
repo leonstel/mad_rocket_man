@@ -36,6 +36,7 @@ public class UIManager : MonoBehaviour {
 		Social.localUser.Authenticate ((bool success) => {
 			if (success) {
 				Googledatahandler.UploadHighScore();
+				Googledatahandler.DownloadHighScore();
 				Debug.Log ("Login success");
 			} else {
 				Debug.Log ("Login Failed");
@@ -48,8 +49,8 @@ public class UIManager : MonoBehaviour {
 	}
 
 
-	public static void setDistanceScore(int distance){
-		distance_score.text = distance + " km"; 
+	public static void setDistanceScore(int planetCount){
+		distance_score.text = "Score: " + planetCount; 
 		highscore.text = "Highscore: " + PlayerPrefs.GetInt ("HScore").ToString();
 
 	}
@@ -75,6 +76,7 @@ public class UIManager : MonoBehaviour {
 		Application.LoadLevel(0);
 	}
 	public void onCredits(){
+		Googledatahandler.checkScene ();
 		Application.LoadLevel(1);
 	}
 
