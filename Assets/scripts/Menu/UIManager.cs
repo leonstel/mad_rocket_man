@@ -36,6 +36,7 @@ public class UIManager : MonoBehaviour {
 		Social.localUser.Authenticate ((bool success) => {
 			if (success) {
 				Googledatahandler.UploadHighScore();
+				Googledatahandler.DownloadHighScore();
 				Debug.Log ("Login success");
 			} else {
 				Debug.Log ("Login Failed");
@@ -75,6 +76,7 @@ public class UIManager : MonoBehaviour {
 		Application.LoadLevel(0);
 	}
 	public void onCredits(){
+		Googledatahandler.checkScene ();
 		Application.LoadLevel(1);
 	}
 

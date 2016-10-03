@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using GooglePlayGames;
+using GooglePlayGames.BasicApi;
 using UnityEngine.SocialPlatforms;
 using System.Collections.Generic;
 
 
 public class Googledatahandler : MonoBehaviour {
+
 	public static int newScore;
-
+	public static int oldScore;
 	// Use this for initialization
-
 
 	// Update is called once per frame
 	void Update () {
@@ -21,8 +22,30 @@ public class Googledatahandler : MonoBehaviour {
 		});
 	}
 
+	public static void DownloadHighScore(){
+		PlayGamesPlatform.Instance.LoadScores (
+			"CgkIs-r3kO4CEAIQAg",
+			LeaderboardStart.PlayerCentered,
+			1,
+			LeaderboardCollection.Public,
+			LeaderboardTimeSpan.AllTime,
+			(LeaderboardScoreData data) => {
+				if(PlayerPrefs.HasKey("HScore")){
+					newScore = int.Parse(data.PlayerScore.formattedValue);
+					if(PlayerPrefs.GetInt("HScore")<newScore){ 
+						// new score is higher than the stored score
+						oldScore = PlayerPrefs.GetInt("HScore");
+						PlayerPrefs.SetInt("HScore",newScore);
+						newScore = oldScore;
+					}
+				}
+			});
+	}
+
+
 	public static void RegisterHighScore(int planetcount){
-	newScore = planetcount;
+		newScore = planetcount;
+
 		Offlinedatahandler.UpdateHighScore(newScore);
 		Social.ReportScore(planetcount, "CgkIs-r3kO4CEAIQAg", (bool success) => {
 			// handle success or failure
@@ -41,11 +64,10 @@ public class Googledatahandler : MonoBehaviour {
 		DeathAchievement(planetcount);
 	}
 
-	public void checkScene(){
-		if (Application.loadedLevel == 1) {
+	public static void checkScene(){
 			Social.ReportProgress ("CgkIs-r3kO4CEAIQDA", 100.0f, (bool success) => {
 			});
-		}
+
 	}
 
 	public static void FirstSpin(){
