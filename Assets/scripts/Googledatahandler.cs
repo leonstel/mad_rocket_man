@@ -40,7 +40,7 @@ public class Googledatahandler : MonoBehaviour {
 				
 	}
 	private static void DeathAchievement(int planetcount){
-		if (planetcount >= 50) {
+		if (planetcount > 49) {
 			Social.ReportProgress ("CgkIs-r3kO4CEAIQCw", 100.0f, (bool success) => {
 			});
 		}
