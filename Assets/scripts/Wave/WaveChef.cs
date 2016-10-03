@@ -66,6 +66,7 @@ public class WaveChef : MonoBehaviour {
 	public void destroyGOs(List<GameObject> GOs){
 		foreach(GameObject go in GOs){
 			Destroy(go);
+			ExplosionWorker.GetInstance ().explode (go.transform.position);
 		}
 	}
 
@@ -84,6 +85,19 @@ public class WaveChef : MonoBehaviour {
 
 			foreach(WaveContainer waveContainer in waves){
 				if(currentWaveNumber == waveContainer.getWaveNumber()){
+					return waveContainer;
+				}
+			}
+		}
+		return null;
+	}
+
+	public WaveContainer getNextWave(){
+		if(Game.GetInstance().currentOrbitGroup != null){
+			int nextWaveNumber = Game.GetInstance().currentOrbitGroup.GetComponent<OrbitGroup> ().getWaveNumber () + 1;
+
+			foreach(WaveContainer waveContainer in waves){
+				if(nextWaveNumber == waveContainer.getWaveNumber()){
 					return waveContainer;
 				}
 			}

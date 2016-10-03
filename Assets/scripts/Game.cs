@@ -8,14 +8,17 @@ public class Game : MonoBehaviour {
 
 	//PUBLIC GAMEOBJECTS
 	public GameObject playerGo;
+
+	public GameObject[] accuracy_prefabs;
+	public GameObject lineCutter_prefab;
 	//
 
 	public enum State {Orbit, Flying, GameOver};
 	public State currentState;
 
 	//
-
 	public GameObject currentOrbitGroup;
+	private int previousOrbitGroupWaveNumber;
 
 	public static Game GetInstance(){
 		return context;
@@ -34,7 +37,40 @@ public class Game : MonoBehaviour {
 	}
 
 	void Update(){
+		if(currentState != State.GameOver){
+			lineCutterCheck ();
+		}
+	}
 		
+	bool hasAlreadyCutLine = false;
+	public void lineCutterCheck(){
+		if(!hasAlreadyCutLine){
+			if(currentOrbitGroup != null){
+				OrbitGroup currentOrbitGroupScript = currentOrbitGroup.GetComponent<OrbitGroup> ();
+
+				int currentOrbitGroupWaveNumber = currentOrbitGroupScript.getWaveNumber ();
+
+				if(currentOrbitGroupWaveNumber != previousOrbitGroupWaveNumber){
+					hasAlreadyCutLine = true;
+
+					if(currentOrbitGroupWaveNumber - previousOrbitGroupWaveNumber >= 2){
+						Instantiate (lineCutter_prefab, new Vector2 (playerGo.transform.position.x, playerGo.transform.position.y - 1.2f), Quaternion.Euler (new Vector3 (0, 0, 1)));
+
+						//when player has cut the line, create a new wave/stage on top
+						WaveChef.GetInstance().createNextStage();
+					}
+				}
+			}
+		}
+	}
+
+	public void screenShake(){
+		WaveContainer currentWave = WaveChef.GetInstance ().getCurrentWave ();
+		if(currentWave != null){
+			if(currentWave.getWaveNumber() > 0){
+				Camera.main.GetComponent<Cam> ().shake ();
+			}
+		}
 	}
 
 	public void determineAccuracy(GameObject arrivalPlanet){
@@ -63,18 +99,33 @@ public class Game : MonoBehaviour {
 					accuracyAngle = Mathf.Abs( angle_alpha - calculatedAngle );
 				}
 
-				string accuracy = "";
+				GameObject accuracy_prefab = null;
 				//determine acceracy
 				if(accuracyAngle > 0 && accuracyAngle <= 25){
-					accuracy = "GOOD";
+					accuracy_prefab = accuracy_prefabs [0];
 				}else if(accuracyAngle > 25 && accuracyAngle <= 50){
-					accuracy = "GREAT";
+					accuracy_prefab = accuracy_prefabs [1];
 				}else if(accuracyAngle > 50){
-					accuracy = "PERFECT";
+					accuracy_prefab = accuracy_prefabs [2];
 				}
 
-				UI.GetInstance ().setAccuracy (accuracy);
+				showAccuracy (accuracy_prefab);
 			}
 		}
+	}
+
+	void showAccuracy(GameObject accuracy_prefab){
+		Instantiate (accuracy_prefab, new Vector2 (playerGo.transform.position.x, playerGo.transform.position.y + 1.2f), Quaternion.Euler (new Vector3 (0, 0, 1)));
+	}
+
+	public void setCurrentOrbitGroup(GameObject orbitGroup){
+		hasAlreadyCutLine = false;
+
+		if(currentOrbitGroup != null){
+			previousOrbitGroupWaveNumber = currentOrbitGroup.GetComponent<OrbitGroup>().getWaveNumber();
+		}
+		currentOrbitGroup = orbitGroup;
+
+		AudioChef.getInstance().playBackgroundMusic ();
 	}
 }

@@ -54,20 +54,23 @@ public class OrbitGroup : MonoBehaviour {
 				if (Helper.CheckIfNearby (gameObject, Game.GetInstance ().playerGo, planetConstraint.distance + .2f)) {
 					hasConnected = true;
 
+					Game.GetInstance ().currentState = Game.State.Orbit;
+
 					if (Game.GetInstance ().playerGo.transform.position.x < gameObject.transform.position.x) {
 						playerScript.orbit_clockwise = true;
 					} else {
 						playerScript.orbit_clockwise = false;
 					}
 
-					Game.GetInstance ().currentState = Game.State.Orbit;
-					Game.GetInstance ().currentOrbitGroup = gameObject;
+					Game.GetInstance ().setCurrentOrbitGroup (gameObject);
 
 					linkToPlayer ();
 
 					WaveChef.GetInstance ().createNextStage ();
 
 					Game.GetInstance().determineAccuracy (gameObject);
+
+					Game.GetInstance ().screenShake ();
 
 					Googledatahandler.PlanetReachAchievement (WaveChef.GetInstance().getCurrentWave().getWaveNumber());
 				}

@@ -25,38 +25,41 @@ public class playerScript : MonoBehaviour {
 			playerRB.freezeRotation = false;
 
 			WaveContainer currentWave = WaveChef.GetInstance ().getCurrentWave ();
-			WaveContainer.PlayerInOrbitMovement playerInOrbitMovement = currentWave.getPlayerInOrbitMovement ();
-			float orbitForce = currentWave.getOrbitForce ();
-			float spinningSpeed = currentWave.getSpinningSpeed();
-		
-			//x = -f * (delta y / l)
 
-			float x_force = 0;
-			float y_force = 0;
+			if(currentWave != null){
+				WaveContainer.PlayerInOrbitMovement playerInOrbitMovement = currentWave.getPlayerInOrbitMovement ();
+				float orbitForce = currentWave.getOrbitForce ();
+				float spinningSpeed = currentWave.getSpinningSpeed();
 
-			if (orbit_clockwise) {
-				x_force = orbitForce * ( (gameObject.transform.position.y - Game.GetInstance().currentOrbitGroup.transform.position.y) / Vector2.Distance(gameObject.transform.position, Game.GetInstance().currentOrbitGroup.transform.position));
-				y_force = -orbitForce * ( (gameObject.transform.position.x - Game.GetInstance().currentOrbitGroup.transform.position.x) / Vector2.Distance(gameObject.transform.position, Game.GetInstance().currentOrbitGroup.transform.position));
-			} else {
-				x_force = -orbitForce * ( (gameObject.transform.position.y - Game.GetInstance().currentOrbitGroup.transform.position.y) / Vector2.Distance(gameObject.transform.position, Game.GetInstance().currentOrbitGroup.transform.position));
-				y_force = orbitForce * ( (gameObject.transform.position.x - Game.GetInstance().currentOrbitGroup.transform.position.x) / Vector2.Distance(gameObject.transform.position, Game.GetInstance().currentOrbitGroup.transform.position));
-			}
+				//x = -f * (delta y / l)
 
-			constF.force = new Vector2 (x_force, y_force);
-			constF.relativeForce = new Vector2 (0,0); 
+				float x_force = 0;
+				float y_force = 0;
 
-			if(playerInOrbitMovement == WaveContainer.PlayerInOrbitMovement.steady){
 				if (orbit_clockwise) {
-					Helper.LookAt90 (gameObject, Game.GetInstance().currentOrbitGroup);
+					x_force = orbitForce * ( (gameObject.transform.position.y - Game.GetInstance().currentOrbitGroup.transform.position.y) / Vector2.Distance(gameObject.transform.position, Game.GetInstance().currentOrbitGroup.transform.position));
+					y_force = -orbitForce * ( (gameObject.transform.position.x - Game.GetInstance().currentOrbitGroup.transform.position.x) / Vector2.Distance(gameObject.transform.position, Game.GetInstance().currentOrbitGroup.transform.position));
 				} else {
-					Helper.LookAt270(gameObject, Game.GetInstance().currentOrbitGroup);
+					x_force = -orbitForce * ( (gameObject.transform.position.y - Game.GetInstance().currentOrbitGroup.transform.position.y) / Vector2.Distance(gameObject.transform.position, Game.GetInstance().currentOrbitGroup.transform.position));
+					y_force = orbitForce * ( (gameObject.transform.position.x - Game.GetInstance().currentOrbitGroup.transform.position.x) / Vector2.Distance(gameObject.transform.position, Game.GetInstance().currentOrbitGroup.transform.position));
 				}
-			}else if(playerInOrbitMovement == WaveContainer.PlayerInOrbitMovement.spinning){
 
-				if (orbit_clockwise) {
-					transform.Rotate (new Vector3(0,0,transform.localRotation.z + spinningSpeed));
-				} else {
-					transform.Rotate (new Vector3(0,0,transform.localRotation.z - spinningSpeed));
+				constF.force = new Vector2 (x_force, y_force);
+				constF.relativeForce = new Vector2 (0,0); 
+
+				if(playerInOrbitMovement == WaveContainer.PlayerInOrbitMovement.steady){
+					if (orbit_clockwise) {
+						Helper.LookAt90 (gameObject, Game.GetInstance().currentOrbitGroup);
+					} else {
+						Helper.LookAt270(gameObject, Game.GetInstance().currentOrbitGroup);
+					}
+				}else if(playerInOrbitMovement == WaveContainer.PlayerInOrbitMovement.spinning){
+
+					if (orbit_clockwise) {
+						transform.Rotate (new Vector3(0,0,transform.localRotation.z + spinningSpeed));
+					} else {
+						transform.Rotate (new Vector3(0,0,transform.localRotation.z - spinningSpeed));
+					}
 				}
 			}
 		}else if (Game.GetInstance ().currentState == Game.State.Flying) {
@@ -78,13 +81,13 @@ public class playerScript : MonoBehaviour {
 	}
 
 	void die(){
-		Game.GetInstance ().currentState = Game.State.GameOver;
-
 		Destroy (gameObject);
 		ExplosionWorker.GetInstance ().explode (gameObject.transform.position);
 
 		WaveContainer currentWave = WaveChef.GetInstance ().getCurrentWave ();
 
 		Googledatahandler.RegisterDeath (currentWave.getWaveNumber());
+
+		Game.GetInstance ().currentState = Game.State.GameOver;
 	}
 }
