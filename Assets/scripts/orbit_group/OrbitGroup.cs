@@ -4,8 +4,6 @@ using System.Collections;
 public class OrbitGroup : MonoBehaviour {
 	private bool hasConnected = false;
 
-	LayerMask layerMask;
-
 	private CircleCollider2D collider;
 
 	private DistanceJoint2D planetConstraint;

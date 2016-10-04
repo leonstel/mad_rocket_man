@@ -55,7 +55,7 @@ namespace GooglePlayGames.OurUtils
         {
             if (debugLogEnabled)
             {
-                Debug.Log(ToLogMessage(string.Empty, "DEBUG", msg));
+                //Debug.Log(ToLogMessage(string.Empty, "DEBUG", msg));
             }
         }
 

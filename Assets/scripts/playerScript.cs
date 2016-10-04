@@ -75,9 +75,39 @@ public class playerScript : MonoBehaviour {
 	void CheckIfOutOfBounds(){
 		Vector3 playerToScreen = Camera.main.WorldToScreenPoint (Game.GetInstance ().playerGo.transform.position);
 
-		if(playerToScreen.x < 0 || playerToScreen.x > Screen.width || playerToScreen.y > Screen.height || playerToScreen.y < -150){
-			die ();
+		if(!willHitPlanet ()){
+			if(playerToScreen.x < 0 || playerToScreen.x > Screen.width || playerToScreen.y > Screen.height || playerToScreen.y < -150){
+				die ();
+			}
 		}
+	}
+
+	bool willHitPlanet(){
+		WaveContainer nextWave = WaveChef.GetInstance ().getNextWave ();
+
+		if(nextWave != null){
+			WaveContainer nextAfterWave = WaveChef.GetInstance ().getNextAfterWave ();
+
+			//RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 2), Vector2.up, Mathf.Infinity, LayerMask.NameToLayer("orbitgroups"));
+			RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + 2), gameObject.transform.up);
+			if (hit.collider != null) {
+				//float distance = Mathf.Abs(hit.point.y - transform.position.y);
+				//float heightError = floatHeight - distance;
+				//float force = liftForce * heightError - rb2D.velocity.y * damping;
+				//rb2D.AddForce(Vector3.up * force);
+				GameObject hitGO = hit.collider.gameObject;
+
+				if (hitGO == nextWave.getOrbitGroup ()) {
+					return true;
+				}
+
+				if(hitGO == nextAfterWave.getOrbitGroup()){
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	void die(){

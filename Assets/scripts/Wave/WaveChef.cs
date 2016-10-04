@@ -105,6 +105,19 @@ public class WaveChef : MonoBehaviour {
 		return null;
 	}
 
+	public WaveContainer getNextAfterWave(){
+		if(Game.GetInstance().currentOrbitGroup != null){
+			int nextAfterWaveNumber = Game.GetInstance().currentOrbitGroup.GetComponent<OrbitGroup> ().getWaveNumber () + 2;
+
+			foreach(WaveContainer waveContainer in waves){
+				if(nextAfterWaveNumber == waveContainer.getWaveNumber()){
+					return waveContainer;
+				}
+			}
+		}
+		return null;
+	}
+
 	public WaveContainer getWave(int waveNumber){
 		foreach(WaveContainer waveContainer in waves){
 			if(waveNumber == waveContainer.getWaveNumber()){
