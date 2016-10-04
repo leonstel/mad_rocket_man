@@ -28,7 +28,7 @@ public class BackgroundScroller : MonoBehaviour {
 		if(Game.GetInstance().currentState != Game.State.GameOver){
 			Vector2 currentTileCoos = new Vector2 (Mathf.Floor ((playerGo.transform.position.x + tileWidth/2) / tileWidth) , Mathf.Floor ((playerGo.transform.position.y + tileHeight/2) / tileHeight));
 
-			if(currentTileCoos.y != previousTileCoos.y){
+			if(currentTileCoos.y > previousTileCoos.y){
 				float newY = tileHeight * (currentTileCoos.y + 1);
 
 				for(int i = -1; i <= 1; i++){

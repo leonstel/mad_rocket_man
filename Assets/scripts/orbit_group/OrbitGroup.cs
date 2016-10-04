@@ -4,6 +4,10 @@ using System.Collections;
 public class OrbitGroup : MonoBehaviour {
 	private bool hasConnected = false;
 
+	LayerMask layerMask;
+
+	private CircleCollider2D collider;
+
 	private DistanceJoint2D planetConstraint;
 	private Rigidbody2D playerRB;
 
@@ -27,6 +31,9 @@ public class OrbitGroup : MonoBehaviour {
 		//set randomized values
 		transform.position = new Vector2(pos_x, transform.position.y);
 		planetConstraint.distance = glow_scale;
+
+		collider = GetComponent<CircleCollider2D> ();
+		collider.radius = glow_scale;
 	}
 
 	// Use this for initialization

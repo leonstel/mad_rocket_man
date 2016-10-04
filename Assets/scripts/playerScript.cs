@@ -75,7 +75,7 @@ public class playerScript : MonoBehaviour {
 	void CheckIfOutOfBounds(){
 		Vector3 playerToScreen = Camera.main.WorldToScreenPoint (Game.GetInstance ().playerGo.transform.position);
 
-		if(playerToScreen.x < 0 || playerToScreen.x > Screen.width || playerToScreen.y > Screen.height || playerToScreen.y < 0){
+		if(playerToScreen.x < 0 || playerToScreen.x > Screen.width || playerToScreen.y > Screen.height || playerToScreen.y < -150){
 			die ();
 		}
 	}
