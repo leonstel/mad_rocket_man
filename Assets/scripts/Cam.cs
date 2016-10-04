@@ -25,7 +25,6 @@ public class Cam : MonoBehaviour {
 		if(!isShaking){
 			if(Game.GetInstance().currentOrbitGroup != null){
 				transform.position = Vector3.Lerp (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (Game.GetInstance().currentOrbitGroup.transform.position.x, Game.GetInstance().currentOrbitGroup.transform.position.y + cam_y_offset, Game.GetInstance().currentOrbitGroup.transform.position.z + offset.z), 5f * Time.deltaTime);
-				//transform.position = new Vector3 (Game.GetInstance().currentOrbitPlanet.transform.position.x, Game.GetInstance().currentOrbitPlanet.transform.position.y + 3f, Game.GetInstance().currentOrbitPlanet.transform.position.z + offset.z	);
 			}
 		}
 	}
